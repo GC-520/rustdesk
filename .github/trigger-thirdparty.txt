@@ -1,1 +1,1 @@
-test thirdparty
+test thirdparty with all params
