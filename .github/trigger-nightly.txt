@@ -1,1 +1,1 @@
-Trigger nightly build for trae/agent-arUNOy
+trigger nightly build after permissions fix
