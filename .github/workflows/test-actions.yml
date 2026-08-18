@@ -1,0 +1,16 @@
+name: Test Actions
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - trae/agent-arUNOy
+    paths:
+      - ".github/trigger-test.txt"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hello
+        run: echo "Actions works"
