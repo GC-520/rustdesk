@@ -1,0 +1,17 @@
+name: Test ThirdParty
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - trae/agent-arUNOy
+    paths:
+      - ".github/trigger-thirdparty.txt"
+
+jobs:
+  test-thirdparty:
+    uses: ./.github/workflows/third-party-RustDeskTempTopMostWindow.yml
+    with:
+      upload-artifact: false
+      target: windows-2022
+      configuration: Release

@@ -1,0 +1,13 @@
+name: Test Bridge
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - trae/agent-arUNOy
+    paths:
+      - ".github/trigger-bridge.txt"
+
+jobs:
+  test-bridge:
+    uses: ./.github/workflows/bridge.yml
