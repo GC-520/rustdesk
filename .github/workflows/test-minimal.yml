@@ -1,0 +1,17 @@
+name: Test Minimal
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - trae/agent-arUNOy
+    paths:
+      - ".github/trigger-minimal.txt"
+
+jobs:
+  test-minimal:
+    uses: ./.github/workflows/flutter-build-minimal.yml
+    secrets: inherit
+    with:
+      upload-artifact: false
+      upload-tag: "test"

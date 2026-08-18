@@ -1,0 +1,54 @@
+name: Flutter Build Minimal
+'on':
+  workflow_call:
+    inputs:
+      upload-artifact:
+        type: boolean
+        default: true
+      upload-tag:
+        type: string
+        default: nightly
+env:
+  SCITER_RUST_VERSION: '1.75'
+  RUST_VERSION: '1.75'
+  MAC_RUST_VERSION: '1.81'
+  CARGO_NDK_VERSION: 3.1.2
+  SCITER_ARMV7_CMAKE_VERSION: 3.29.7
+  SCITER_NASM_DEBVERSION: 2.15.05-1
+  LLVM_VERSION: 15.0.6
+  FLUTTER_VERSION: 3.24.5
+  ANDROID_FLUTTER_VERSION: 3.24.5
+  FLUTTER_WINDOWS_ARM_VERSION: 3.44.8
+  FLUTTER_ELINUX_VERSION: 3.16.9
+  TAG_NAME: ${{ inputs.upload-tag }}
+  VCPKG_BINARY_SOURCES: clear;x-gha,readwrite
+  VCPKG_COMMIT_ID: 120deac3062162151622ca4860575a33844ba10b
+  ARMV7_VCPKG_COMMIT_ID: 6f29f12e82a8293156836ad81cc9bf5af41fe836
+  VERSION: 1.4.9
+  NDK_VERSION: r28c
+  ANDROID_SIGNING_KEY: ${{ secrets.ANDROID_SIGNING_KEY }}
+  MACOS_P12_BASE64: ${{ secrets.MACOS_P12_BASE64 }}
+  UPLOAD_ARTIFACT: ${{ inputs.upload-artifact }}
+  SIGN_BASE_URL: ${{ secrets.SIGN_BASE_URL }}-2
+jobs:
+  generate-sbom:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+      with:
+        submodules: recursive
+    - name: Install Syft
+      uses: anchore/sbom-action/download-syft@v0
+    - name: Generate SBOM
+      run: "syft dir:. \\\n  -o cyclonedx-json=rustdesk.sbom.json\n"
+    - name: Publish Release
+      uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844
+      if: env.UPLOAD_ARTIFACT == 'true'
+      with:
+        prerelease: true
+        tag_name: ${{ env.TAG_NAME }}
+        files: 'rustdesk.sbom.json
+
+          '
