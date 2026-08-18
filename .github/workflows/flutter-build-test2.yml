@@ -1,0 +1,20 @@
+name: Flutter Build Test2
+
+on:
+  workflow_call:
+    inputs:
+      upload-artifact:
+        type: boolean
+        default: true
+      upload-tag:
+        type: string
+        default: "nightly"
+
+jobs:
+  test-job:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Hello
+        run: echo "Test2 works"

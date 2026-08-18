@@ -1,0 +1,16 @@
+name: Test Reusable2
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - trae/agent-arUNOy
+    paths:
+      - ".github/trigger-reusable2.txt"
+
+jobs:
+  test:
+    uses: ./.github/workflows/flutter-build-test2.yml
+    with:
+      upload-artifact: false
+      upload-tag: "test"
